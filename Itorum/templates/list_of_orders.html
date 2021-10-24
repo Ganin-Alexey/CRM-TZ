@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Сайт</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a class="bot1" href="{% url 'freeOrdersList' week=1 %}">Список по неделям</a>
+<a class="bot1" href="{% url 'logout' %}">Выйти из аккаунта</a>
+<table class="table" id="main_table">
+    <caption><H2>Список заказов</H2></caption>
+    <thead>
+    <tr>
+        <th>Номер заказа</th>
+        <th>Сумма заказа</th>
+        <th>Заказчик</th>
+        <th>Дата заказа</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+    <tr id="order_{{ order.id }}">
+        <td>{{ order.pk }}</td>
+        <td>{{ order.total }}</td>
+        <td>{{ order.user.name }}</td>
+        <td>{{ order.created_at|date:"j.m.Y, H:m:s " }}</td>
+        <td>
+            <button onclick="deleteOrder({{ order.id }})">Удалить</button>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr id="order_add">
+        <form method="post">
+            {% csrf_token %}
+            <td><input disabled name="order" placeholder="Заказ-ID"></td>
+            <td><input name="sum" placeholder="Например: 3000"></td>
+            <td>
+                <select name="customer" required>
+                    <option disabled selected>Выберите заказчика</option>
+                    {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{ customer.name }}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td><input disabled name="sum" placeholder="Дата(Автоматически)"></td>
+            <td>
+                <button>Добавить</button>
+            </td>
+        </form>
+    </tr>
+    </tbody>
+</table>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

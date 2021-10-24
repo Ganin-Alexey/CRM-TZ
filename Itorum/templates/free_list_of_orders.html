@@ -1,0 +1,65 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html dir="ltr" lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Сайт</title>
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<a class="bot1" href="{% url 'ordersList' %}">Список с редактированием</a>
+<span>Фильтрация по неделям - </span>
+<select onchange="selectWeek(this)" name="customer" required>
+    {% for week in weeks_date_list %}
+        {% if forloop.first %}
+            <option selected value="{{ forloop.counter }}">{{ week }}</option>
+        {% else %}
+            <option value="{{ forloop.counter }}">{{ week }}</option>
+        {% endif %}
+    {% endfor %}
+</select>
+<table class="table" id="main_table">
+    <caption><H3>Список заказов с фильтром по неделям</H3></caption>
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th>Заказчики</th>
+        <th>Сумма заказов</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for date, params in days_dict.items %}
+    <tr id="day_{{ forloop.counter }}">
+        <td>{{ date }}</td>
+        {% for param_key, param_value in params.items %}
+            {% if param_value == None %}
+                <td></td>
+            {% else %}
+                <td>{{ param_value }}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<hr>
+<table class="table" id="main_table">
+    <thead>
+    <caption><H2>Итог за неделю</H2></caption>
+    <tr>
+        <th>Все заказчики</th>
+        <th>Сумма всех заказов</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr id="results">
+            <td>{{ list_of_customers_for_week }}</td>
+            <td>{{ total_sum_for_week }}</td>
+        </tr>
+    </tbody>
+</table>
+<hr>
+<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

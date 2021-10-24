@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  backend:
+    restart: unless-stopped
+    build: ./Itorum
+    env_file:
+      - ./Itorum/.env
+    volumes:
+      - ./Itorum:/Itorum/
+    ports:
+      - "8000:8000"
+
