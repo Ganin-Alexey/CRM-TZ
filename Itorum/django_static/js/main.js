@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             body: formData
         });
         if (!fetchResp.ok) {
-            console.log(formData)
             throw new Error(`Ошибка!`);
         }
         return await fetchResp.text();
@@ -39,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(this);
             ajaxSend(formData)
                 .then((response) => {
-                    const data = JSON.parse(response)
+                    const data = JSON.parse(response);
                     var tr_new = document.createElement("tr");
                     tr_new.id = "order_" + data.id;
                     if ('status' in data && data['status'] != 200){
@@ -48,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         return 1;
                     }
                     for (const key of Object.keys(data)){
-                        console.log(key)
                         var td = document.createElement("td");
                         if (key == 'date') {
                              var newDate = new Date(data[key]);
@@ -68,11 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     var tbody = document.getElementById("main_table").children[1];
                     var tr_add = document.getElementById("order_add");
+                    console.log(tr_add);
+                    console.log(tbody);
                     tbody.insertBefore(tr_new, tr_add);
 
                     form.reset(); // очищаем поля формы
                 })
-                .catch((err) => console.error(err))
+                .catch((err) => console.error(err));
         });
     });
 
@@ -89,7 +89,6 @@ async function selectWeek(week) {
         }
     });
     const data = JSON.parse(await response.json());
-    console.log(data);
     const days = Object.keys(data);
     for (let day = 0; day < days.length - 2; day++) {
         var tr = document.getElementById("day_" + (day + 1));
