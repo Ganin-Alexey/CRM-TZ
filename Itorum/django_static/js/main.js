@@ -64,10 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     td_button.appendChild(button);
                     tr_new.appendChild(td_button);
 
-                    var tbody = document.getElementById("main_table").children[1];
+                    var tbody = document.getElementById("main_table").children[2];
                     var tr_add = document.getElementById("order_add");
-                    console.log(tr_add);
-                    console.log(tbody);
                     tbody.insertBefore(tr_new, tr_add);
 
                     form.reset(); // очищаем поля формы
